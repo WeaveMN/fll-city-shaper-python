@@ -21,10 +21,10 @@ brick.sound.beep()
 
 # Use our custom robot class
 # parameters: (left_motor_port, right_motor_port, med_motor_port, gyro_port, wheel_diameter, wheel_base)
-robot = Robot(Port.D, Port.A, Port.B, Port.S4, 37, 95)
+robot = Robot(Port.D, Port.A, Port.B, Port.S4, 55, 120)
 
 # TEST IT OUT
 robot.resetGyro()
-robot.driveStraight(4, 50)
+robot.driveStraight(4, 500)
 robot.turnDegrees(90)
 

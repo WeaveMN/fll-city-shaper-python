@@ -12,15 +12,15 @@ class Robot:
   def __init__(self, left_motor_port, right_motor_port, med_motor_port, gyro_port, wheel_diameter, wheel_base):
     self.left_motor = Motor(left_motor_port)    
     self.right_motor = Motor(right_motor_port)
-    self.med_motor = Motor(med_motor_port)
-    self.robot = DriveBase(left_motor, right_motor, wheel_diameter, wheel_base)
+    # self.med_motor = Motor(med_motor_port)
+    self.robot = DriveBase(self.left_motor, self.right_motor, wheel_diameter, wheel_base)
     self.gyro = GyroSensor(gyro_port)
 
   # Function definitions
 
   # Gyro sensor reset, waits until the gyro has come to rest and then resets the value to zero
   # use at beginning of mission programs
-  def resetGyro():
+  def resetGyro(self):
     brick.light(Color.RED)
     speed = self.gyro.speed()
     angle = self.gyro.angle()
@@ -33,7 +33,7 @@ class Robot:
 
   # Drive the robot straight using the GyroSensor
   # 
-  def driveStraight(rotations, speed):
+  def driveStraight(self, rotations, speed):
     distance = rotations * 360 # convert wheel rotations to degrees
     self.gyro.reset_angle(0)
     self.left_motor.reset_angle(0)
@@ -53,10 +53,10 @@ class Robot:
     self.robot.stop(Stop.BRAKE)
 
   #  Turn the robot an exact amount using the GryoSensor
-  def turnDegrees(degrees):
+  def turnDegrees(self, degrees):
     self.gyro.reset_angle(0)
-    initial_power = 30
-    end_power = 5
+    initial_power = 300
+    end_power = 50
     left_motor_power = initial_power
     right_motor_power = initial_power * -1
     if degrees < 0:
