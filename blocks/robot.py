@@ -39,16 +39,18 @@ class Robot:
     self.left_motor.reset_angle(0)
     self.right_motor.reset_angle(0)
     # set our amount to correct back towards straight
-    correction = 2
+    correction = -2
     if speed < 0:
-      correction = -2
+      correction = 2
     # start the robot driving
     self.robot.drive(speed, 0)
     # loop until the robot has travelled the distance we want
     # updating the steering angle of the drive based on the gyro measured drift and correction
     while abs(self.left_motor.angle()) <= distance and abs(self.right_motor.angle()) <= distance:
       drift = self.gyro.angle()
+      print("Drift: " + str(drift))
       steering = drift * correction
+      #print("Steering: " + str(steering))
       self.robot.drive(speed, steering)
     self.robot.stop(Stop.BRAKE)
 
@@ -65,8 +67,12 @@ class Robot:
     initial_turn = abs(degrees * .75)
     self.left_motor.run(left_motor_power)
     self.right_motor.run(right_motor_power)
-    while abs(self.gyro.angle()) < initial_turn:
+    angle = self.gyro.angle()
+    print("Angle: " + str(angle))
+    while abs(angle) < initial_turn:
       wait(10)
+      angle = self.gyro.angle()
+      print("Angle: " + str(angle))
     left_motor_power = end_power
     right_motor_power = end_power * -1
     if degrees < 0:
@@ -74,8 +80,17 @@ class Robot:
       right_motor_power = end_power
     self.left_motor.run(left_motor_power)
     self.right_motor.run(right_motor_power)
-    end_degrees = (abs(degrees) -1) 
-    while abs(self.gyro.angle()) < end_degrees:
+    end_degrees = (abs(degrees) -1)
+    angle = self.gyro.angle()
+    print("Angle: " + str(angle)) 
+    while abs(angle) < end_degrees:
       wait(10)
+      angle = self.gyro.angle()
+      print("Angle: " + str(angle))
     self.left_motor.stop(Stop.BRAKE)
     self.right_motor.stop(Stop.BRAKE)
+    print("Final Angle: " + str(self.gyro.angle()))
+  
+  def oldDrive(self, speed, turn):
+    while True:
+      self.robot.drive(speed, turn)
